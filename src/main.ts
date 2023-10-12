@@ -8,23 +8,21 @@ const bird = document.getElementById("bird");
 
 const scoreText = document.getElementById("scoreText");
 let score = 0;
-SetText("click to start!");
+setText("click to start!");
 
 let isJumping = false;
 let gameOver = true;
 
 document.addEventListener("mousedown", () => jump());
 
-window.requestAnimationFrame(
-  main
-);
+window.requestAnimationFrame(main);
 
 function main() {
   if (gameOver == false) {
     score = score + 1;
-    SetText("Score: " + score);
+    setText("Score: " + score);
 
-    CheckGameOver();
+    checkGameOver();
     //const thebird = document.querySelector("bird");
     //console.log(window.getComputedStyle(thebird))
   }
@@ -32,29 +30,28 @@ function main() {
   //
   window.requestAnimationFrame(main);
 }
-
 function jump() {
-  if ((gameOver === false) && (isJumping === false)){
-      isJumping = true;
-      dino?.classList.add("jump");
-      setTimeout(RemoveJump, 500);
+  if (gameOver === false && isJumping === false) {
+    isJumping = true;
+    dino?.classList.add("jump");
+    setTimeout(removeJump, 500);
   } else {
     startGame();
   }
 }
 
-function RemoveJump() {
+function removeJump() {
   dino?.classList.remove("jump");
   isJumping = false;
   //mainLoop = mainLoop //bug fix?
 }
 
-function RemoveObstacles() {
+function removeObstacles() {
   cactus?.classList.remove("cactusMove");
   bird?.classList.remove("birdMove");
 }
 
-function CheckGameOver() {
+function checkGameOver() {
   if (gameOver == false && dino != null && cactus != null && bird != null) {
     //get is dinosaur jumping
     let dinoTop = parseInt(
@@ -72,17 +69,20 @@ function CheckGameOver() {
     );
 
     //detect cactus collision
-    if ((dinoTop >= 150 && Math.abs(cactusleft) < 7) || (dinoTop <= 55 && Math.abs(birdleft) < 11)){
+    if (
+      (dinoTop >= 150 && Math.abs(cactusleft) < 7) ||
+      (dinoTop <= 55 && Math.abs(birdleft) < 11)
+    ) {
       //end game
       console.log("player died!");
-      SetText("Final Score: " + score + "! Click To Play Again!");
+      setText("Final Score: " + score + "! Click To Play Again!");
       gameOver = true;
 
       //reset player
-      RemoveJump();
+      removeJump();
 
       //reset cactus
-      RemoveObstacles();
+      removeObstacles();
     }
   }
 }
@@ -95,7 +95,7 @@ function startGame() {
   bird?.classList.add("birdMove");
 }
 
-function SetText(s: string) {
+function setText(s: string) {
   if (scoreText) {
     scoreText.textContent = s;
   }
